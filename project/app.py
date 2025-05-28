@@ -3,10 +3,10 @@ from pydantic import BaseModel
 import torch
 from transformers import AutoTokenizer
 from pathlib import Path
-from model import CrossAttentionModel
+from model import CrossEncoderRegressionModel
 
-MODEL_PATH = Path("./checkpoints/best_model_cross.pt")
-TOKENIZER_NAME = "sentence-transformers/all-MiniLM-L12-v2"
+MODEL_PATH = Path("./checkpoints/best_model.pt")
+TOKENIZER_NAME = "sentence-transformers/paraphrase-MiniLM-L6-v2"
 
 app = FastAPI()
 
@@ -15,10 +15,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Cargar el tokenizador y el modelo al iniciar la API
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME)
-model = CrossAttentionModel(model_name=TOKENIZER_NAME)  # Especificar model_name
+model = CrossEncoderRegressionModel(model_name=TOKENIZER_NAME)
 try:
-    checkpoint = torch.load(MODEL_PATH, map_location=device, weights_only=False)
-    model.load_state_dict(checkpoint['model_state_dict'])
+    checkpoint = torch.load(MODEL_PATH, map_location=device, weights_only=True)
+    model.load_state_dict(checkpoint)  # Cargar directamente el state_dict
 except FileNotFoundError:
     raise RuntimeError(f"Modelo no encontrado en {MODEL_PATH}")
 model.to(device)
@@ -32,22 +32,24 @@ class Sentences(BaseModel):
 @app.post("/predict")
 def predict_similarity(sentences: Sentences):
     try:
-        # Tokenizar las oraciones
-        encoded1 = tokenizer(sentences.sentence1, padding="max_length", truncation=True, max_length=128, return_tensors="pt")
-        encoded2 = tokenizer(sentences.sentence2, padding="max_length", truncation=True, max_length=128, return_tensors="pt")
+        # Tokenizar las oraciones juntas
+        encoding = tokenizer(
+            sentences.sentence1,  # Corregir: usar sentences.sentence1
+            sentences.sentence2,  # Corregir: usar sentences.sentence2
+            padding="max_length",
+            truncation=True,
+            max_length=128,
+            return_tensors="pt"
+        )
         
-        # Extraer tensores y mover al dispositivo
-        input_ids1 = encoded1["input_ids"].to(device)
-        attention_mask1 = encoded1["attention_mask"].to(device)
-        input_ids2 = encoded2["input_ids"].to(device)
-        attention_mask2 = encoded2["attention_mask"].to(device)
+        # Mover tensores al dispositivo
+        input_ids = encoding['input_ids'].to(device)
+        attention_mask = encoding['attention_mask'].to(device)
         
         # Calcular similitud
         with torch.no_grad():
-            similarity = model(input_ids1, attention_mask1, input_ids2, attention_mask2)
-            # Manejar tanto salida escalar como tensor
-            if torch.is_tensor(similarity):
-                similarity = similarity.item()
+            similarity = model(input_ids, attention_mask)
+            similarity = similarity.item() * 5.0  # Escalar a [0, 5]
         
         return {"similarity": float(similarity)}
     except Exception as e:
