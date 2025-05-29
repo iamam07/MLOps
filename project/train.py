@@ -53,7 +53,9 @@ scheduler = get_scheduler(
 )
 
 best_pearson = -1.0
-os.makedirs("checkpoints", exist_ok=True)
+OUTPUT_MODEL_PATH = os.getenv("OUTPUT_MODEL_PATH", "checkpoints/best_model.pt")
+os.makedirs(os.path.dirname(OUTPUT_MODEL_PATH), exist_ok=True)
+
 
 for epoch in range(EPOCHS):
     model.train()
@@ -100,7 +102,7 @@ for epoch in range(EPOCHS):
 
     if pearson > best_pearson:
         best_pearson = pearson
-        torch.save(model.state_dict(), "checkpoints/best_model.pt")
+        torch.save(model.state_dict(), OUTPUT_MODEL_PATH)
         print("  ✓ Mejor modelo guardado.")
 
 print("Entrenamiento finalizado.")

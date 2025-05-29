@@ -5,7 +5,9 @@ from transformers import AutoTokenizer
 from pathlib import Path
 from model import CrossEncoderRegressionModel
 
-MODEL_PATH = Path("./checkpoints/best_model.pt")
+import os
+MODEL_PATH = Path(os.getenv("MODEL_PATH", "/mnt/model/best_model.pt"))
+
 TOKENIZER_NAME = "sentence-transformers/paraphrase-MiniLM-L6-v2"
 
 app = FastAPI()

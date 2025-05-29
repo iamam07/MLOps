@@ -1,0 +1,17 @@
+services:
+  trainer:
+    build: ./project
+    command: python train.py
+    volumes:
+      - ./model_storage:/mnt/model
+    environment:
+      - OUTPUT_MODEL_PATH=/mnt/model/best_model.pt
+
+  app:
+    build: ./project
+    ports:
+      - "8005:8000"
+    volumes:
+      - ./model_storage:/mnt/model
+    environment:
+      - MODEL_PATH=/mnt/model/best_model.pt
