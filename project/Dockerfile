@@ -5,11 +5,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py .
-COPY model.py .
-COPY utils.py .
-COPY checkpoints/ checkpoints/
+COPY . .
 
-EXPOSE 8000
+EXPOSE 8005
 
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8005"]
