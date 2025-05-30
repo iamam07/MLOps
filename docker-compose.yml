@@ -1,19 +1,19 @@
 services:
-  # trainer:
-  #   build:
-  #     context: ./project
-  #     dockerfile: Dockerfile.trainer
-  #   command: python train.py
-  #   volumes:
-  #     - ./model_storage:/mnt/model
-  #   environment:
-  #     - OUTPUT_MODEL_PATH=/mnt/model/best_model.pt
-  #   deploy:
-  #     resources:
-  #       reservations:
-  #         devices:
-  #           - capabilities: [gpu]
-  #   runtime: nvidia
+  trainer:
+    build:
+      context: ./project
+      dockerfile: Dockerfile.trainer
+    command: python train.py
+    volumes:
+      - ./model_storage:/mnt/model
+    environment:
+      - OUTPUT_MODEL_PATH=/mnt/model/best_model.pt
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    runtime: nvidia
 
   app:
     build:
@@ -26,8 +26,8 @@ services:
       - ./model_storage:/mnt/model
     environment:
       - MODEL_PATH=/mnt/model/best_model.pt
-    depends_on:
-      - trainer
+    # depends_on:
+    #   - trainer
 
   interface:
     build:

@@ -5,6 +5,7 @@ import re
 import time
 from datetime import datetime
 
+
 # Configuración de la página
 st.set_page_config(
     page_title="IAMAM LangGraph Agent",
@@ -175,8 +176,8 @@ def render_sidebar():
         # Añadimos el nuevo modo de similitud semántica
         st.session_state.mode = st.selectbox(
             "Modo de operación",
-            ["Modo Chatbot", "Modo Tareas", "Modo Similitud Semántica"],
-            index=["Modo Chatbot", "Modo Tareas", "Modo Similitud Semántica"].index(st.session_state.mode)
+            ["Modo Similitud Semántica", "Modo Chatbot", "Modo Tareas", "Modo Similitud Semántica"],
+            index=["Modo Similitud Semántica", "Modo Chatbot", "Modo Tareas", "Modo Similitud Semántica"].index(st.session_state.mode)
         )
         
         agent_mode = st.selectbox(
@@ -220,7 +221,7 @@ def render_sidebar():
             st.session_state.action_history = []
             st.session_state.agent_trace = {}
             st.session_state.workflow_id = None
-            st.session_state.mode = "Modo Chatbot"
+            st.session_state.mode = "Modo Similitud Semántica"
             st.rerun()
         
         if st.download_button(
@@ -424,3 +425,5 @@ def main():
 
 
 
+if __name__ == "__main__":
+    main()

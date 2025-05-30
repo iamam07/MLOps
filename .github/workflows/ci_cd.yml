@@ -6,60 +6,32 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install -r project/requirements.txt
-
-      - name: Run tests
-        run: |
-          pytest project/test_app.py
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push API (app)
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./project
+          file: ./project/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository_owner }}/mlops-app:latest
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Azure Login
-        uses: azure/login@v1
+      - name: Build and push Interface
+        uses: docker/build-push-action@v4
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploy to Azure Container Instances
-        uses: azure/aci-deploy@v1
-        with:
-          resource-group: my-resource-group
-          dns-name-label: similarity-api
-          image: ghcr.io/${{ github.repository }}:latest
-          registry-login-server: ghcr.io
-          registry-username: ${{ github.actor }}
-          registry-password: ${{ secrets.GITHUB_TOKEN }}
-          name: similarity-api
-          location: westeurope
-          ports: 8000
+          context: ./project
+          file: ./project/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/mlops-interface:latest

@@ -6,6 +6,8 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 from scipy.stats import pearsonr
 import numpy as np
 import os
+import wandb
+
 
 from model import CrossEncoderRegressionModel
 from utils import STSDataset, set_seed
@@ -53,9 +55,22 @@ scheduler = get_scheduler(
 )
 
 best_pearson = -1.0
+patience = 3
+wait = 0
+
 OUTPUT_MODEL_PATH = os.getenv("OUTPUT_MODEL_PATH", "checkpoints/best_model.pt")
 os.makedirs(os.path.dirname(OUTPUT_MODEL_PATH), exist_ok=True)
 
+wandb.init(
+    project="mlops-final",
+    name="cross-encoder-sts",
+    config={
+        "model_name": MODEL_NAME,
+        "batch_size": BATCH_SIZE,
+        "learning_rate": LR,
+        "epochs": EPOCHS,
+    }
+)
 
 for epoch in range(EPOCHS):
     model.train()
@@ -99,10 +114,30 @@ for epoch in range(EPOCHS):
     print(f"  Val Pearson: {pearson:.4f}")
     print(f"  MAE: {mae:.4f}")
     print(f"  RMSE: {rmse:.4f}")
+    
+    wandb.log({
+    "epoch": epoch + 1,
+    "train_loss": avg_train_loss,
+    "val_pearson": pearson,
+    "val_mae": mae,
+    "val_rmse": rmse
+})
+
+    
 
     if pearson > best_pearson:
         best_pearson = pearson
+        wait = 0
         torch.save(model.state_dict(), OUTPUT_MODEL_PATH)
-        print("  ✓ Mejor modelo guardado.")
+        print("   Mejor modelo guardado.")
+    else:
+        wait += 1
+        print(f"  No mejora. Esperando ({wait}/{patience})")
 
+    if wait >= patience:
+        print("   Early stopping activado.")
+        break
+
+
+wandb.finish()
 print("Entrenamiento finalizado.")
