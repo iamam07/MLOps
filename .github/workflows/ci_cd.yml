@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./project
-          file: ./project/Dockerfile
+          file: ./project/Dockerfile.app
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/mlops-app:latest
 
@@ -32,6 +32,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./project
-          file: ./project/Dockerfile
+          file: ./project/Dockerfile.interface
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/mlops-interface:latest
