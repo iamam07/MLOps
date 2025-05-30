@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 8005
 
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8005"]
+CMD ["uvicorn", "app:app", "--host", "localhost", "--port", "8005"]
