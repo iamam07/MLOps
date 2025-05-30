@@ -133,7 +133,8 @@ def get_agent_state():
 # Nueva función para interactuar con la API de similitud semántica
 def send_similarity_request(sentence1, sentence2):
     """Envía solicitud a la API de similitud semántica"""
-    api_url = "http://localhost:8005/predict"  # URL de la API de similitud
+    api_url = "http://app:8005/predict"
+    #api_url = "http://localhost:8005/predict"  # URL de la API de similitud
     # headers = {
     #     "x-api-key": "8ae2476c1ff1269327d677310a541c6cc9b9eab036d62e23c0fe2a4cbd216f81"  # Misma clave que LangGraph
     # }
@@ -400,7 +401,7 @@ def main():
     elif clear:
         st.session_state.messages = []
         st.session_state.workflow_id = None
-        st.session_state.mode = "Modo Chatbot"
+        st.session_state.mode = "Modo Similitud Semántica"
         st.rerun()
     
     st.markdown("""
@@ -421,5 +422,5 @@ def main():
     </script>
     """, unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    main()
+
+
