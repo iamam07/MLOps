@@ -1,0 +1,15 @@
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch==2.4.1
+torchvision
+torchaudio
+fastapi==0.110.1
+uvicorn==0.32.0
+transformers>=4.44.2
+pydantic==2.9.2
+datasets==3.0.1
+scipy==1.14.1
+numpy==1.26.4
+scikit-learn
+pytest==8.2.0
+streamlit==1.35.0
+wandb==0.16.6
