@@ -15,7 +15,7 @@ from utils import STSDataset, set_seed
 # Config
 MODEL_NAME = "sentence-transformers/paraphrase-MiniLM-L6-v2"
 BATCH_SIZE = 8
-LR = 2e-5 #1e-5  
+LR = 2e-5  
 EPOCHS = 15
 
 set_seed()
