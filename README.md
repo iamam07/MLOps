@@ -141,37 +141,24 @@ La interfaz se abrirá automáticamente en tu navegador en `http://localhost:850
 
 ```
 MLOps/
-├── app/
-│   ├── api/
-│   │   ├── __init__.py
-│   │   ├── endpoints.py
-│   │   └── models.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── config.py
-│   │   └── logging.py
-│   └── ml/
-│       ├── __init__.py
-│       ├── models.py
-│       ├── preprocessing.py
-│       └── training.py
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── models/
-├── tests/
-│   ├── __init__.py
-│   ├── test_api.py
-│   └── test_models.py
-├── .github/
-│   └── workflows/
-│       └── ci-cd.yml
-├── Dockerfile
+├── README.md
 ├── docker-compose.yml
-├── requirements.txt
-├── main.py
-├── interfaceNLP.py
-└── README.md
+├── model_storage
+│   └── best_model.pt
+└── project
+    ├── Dockerfile.app
+    ├── Dockerfile.interface
+    ├── Dockerfile.trainer
+    ├── app.py
+    ├── checkpoints
+    ├── evaluate.py
+    ├── interfaceNLP.py
+    ├── model.py
+    ├── requirements.txt
+    ├── testGPU.py
+    ├── test_app.py
+    ├── train.py
+    └── utils.py
 ```
 
 ## 🚀 Despliegue
@@ -250,10 +237,11 @@ El proyecto incluye:
 
 ## 🔗 Enlaces Útiles
 
-- [Documentación de FastAPI](https://fastapi.tiangolo.com/)
-- [Streamlit Documentation](https://docs.streamlit.io/)
-- [Docker Documentation](https://docs.docker.com/)
-- [MLOps Best Practices](https://ml-ops.org/)
+- [Reporte W&B](https://wandb.ai/mamsoft/mlops-final?nw=nwusermiguelaneurymartinez)
+- [Repositorio de GitHub](https://github.com/iamam07/MLOps)
+- [URL Interface](https://mlops-api-iamam07.azurewebsites.net/)
+- [Api](https://mlops-ui-iamam07.azurewebsites.net/)
+
 
 ## 📝 Licencia
 
