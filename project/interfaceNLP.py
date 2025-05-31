@@ -176,8 +176,8 @@ def render_sidebar():
         # Añadimos el nuevo modo de similitud semántica
         st.session_state.mode = st.selectbox(
             "Modo de operación",
-            ["Modo Similitud Semántica", "Modo Chatbot", "Modo Tareas", "Modo Similitud Semántica"],
-            index=["Modo Similitud Semántica", "Modo Chatbot", "Modo Tareas", "Modo Similitud Semántica"].index(st.session_state.mode)
+            ["Modo Similitud Semántica"],
+            index=["Modo Similitud Semántica"].index(st.session_state.mode)
         )
         
         agent_mode = st.selectbox(

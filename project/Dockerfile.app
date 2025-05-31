@@ -6,6 +6,7 @@ COPY requirements.txt .
 RUN pip install fastapi uvicorn transformers torch
 
 COPY . .
+COPY best_model.pt /app/checkpoints/best_model.pt
 
 EXPOSE 8005
 

@@ -100,16 +100,15 @@ docker build -t mlops-app .
 docker run -p 8000:8000 -p 8501:8501 mlops-app
 ```
 
-## 🎯 Interfaz NLP
+## 🎯 Interfaz para Simitud
 
-La interfaz NLP (`interfaceNLP.py`) proporciona una interfaz gráfica interactiva para trabajar con los modelos de procesamiento de lenguaje natural.
+La interfaz proporciona una interfaz gráfica interactiva para trabajar con un modelos de procesamiento de lenguaje natural exactamente en temas de Similitud Semántica entre dos oraciones.
+
+Nota: A pesar de que la interface esta preparada para otras funciones, en esta version solo esta disponible la opcion de Similitud Semántica la cual se puede seleccionar en la opcion lateral donde tambien existen otras opciones disponible.
 
 ### Características de la Interfaz
 
-- **Análisis de Sentimientos**: Determina si un texto es positivo, negativo o neutral
-- **Clasificación de Texto**: Clasifica textos en categorías predefinidas
-- **Procesamiento en Lote**: Carga y procesa múltiples textos desde archivos
-- **Visualización de Resultados**: Gráficos y métricas de los análisis realizados
+- **Similitud Semántica**: Determina el nivel de Similitud Semántica entre dos oraciones.
 
 ### Guía de Uso de la Interfaz
 
@@ -121,97 +120,22 @@ La interfaz se abrirá automáticamente en tu navegador en `http://localhost:850
 
 #### 2. Análisis de Texto Individual
 
-1. **Selecciona el tipo de análisis** en el menú desplegable:
-   - Análisis de Sentimientos
-   - Clasificación de Texto
-   - Extracción de Entidades
+1. **Selecciona el tipo de opcion** en el menú desplegable lateral:
+   - Similitud Semántica
 
-2. **Ingresa tu texto** en el área de texto proporcionada
+#### 3. Procesamiento de las oraciones 
 
-3. **Haz clic en "Analizar"** para obtener los resultados
+1. **Indicar las Oraciones** completa los campos correspondiente a las dos oraciones a la que se le estara realizando la Similitud Semántica.
 
-4. **Visualiza los resultados** que incluyen:
-   - Predicción del modelo
-   - Confianza de la predicción
-   - Gráficos de probabilidades
+2. **Ejecuta la Comparacion** y se desplegara en la parte de arriba como si fuera un chat el resultado de la comparacion semantica de ambas oraciones.
 
-#### 3. Procesamiento en Lote
 
-1. **Ve a la sección "Procesamiento en Lote"**
-
-2. **Carga tu archivo** (formatos soportados: .txt, .csv, .json):
-   ```
-   Ejemplo de formato CSV:
-   texto,etiqueta_real
-   "Me encanta este producto",positivo
-   "No me gusta nada",negativo
-   ```
-
-3. **Selecciona las columnas** relevantes si es un CSV
-
-4. **Ejecuta el análisis** y descarga los resultados
-
-#### 4. Comparación de Modelos
-
-1. **Accede a la sección "Comparación"**
-
-2. **Selecciona múltiples modelos** para comparar
-
-3. **Ingresa el texto de prueba**
-
-4. **Compara los resultados** lado a lado con métricas de rendimiento
-
-#### 5. Configuración Avanzada
+#### 4. Configuración Avanzada
 
 - **Ajustar umbral de confianza**: Modifica el nivel mínimo de confianza para las predicciones
 - **Seleccionar idioma**: Cambia el idioma de procesamiento
 - **Personalizar salida**: Elige el formato de los resultados exportados
 
-### Ejemplos de Uso
-
-#### Análisis de Sentimientos
-```python
-# Texto de ejemplo
-texto = "¡Excelente servicio! Muy recomendado."
-
-# Resultado esperado
-{
-    "sentimiento": "positivo",
-    "confianza": 0.95,
-    "probabilidades": {
-        "positivo": 0.95,
-        "neutral": 0.04,
-        "negativo": 0.01
-    }
-}
-```
-
-#### Clasificación de Texto
-```python
-# Texto de ejemplo
-texto = "¿Cuál es el horario de atención al cliente?"
-
-# Resultado esperado
-{
-    "categoria": "soporte_cliente",
-    "confianza": 0.87,
-    "subcategorias": ["horarios", "informacion_general"]
-}
-```
-
-### Solución de Problemas
-
-#### Error de Conexión
-- Verifica que el servidor API esté ejecutándose en `http://localhost:8000`
-- Revisa que no haya conflictos de puertos
-
-#### Rendimiento Lento
-- Reduce el tamaño del lote de procesamiento
-- Verifica los recursos disponibles del sistema
-
-#### Errores de Formato
-- Asegúrate de que los archivos tengan la codificación UTF-8
-- Verifica que el formato del CSV sea correcto
 
 ## 📁 Estructura del Proyecto
 
@@ -296,10 +220,6 @@ MODELS_CONFIG = {
     "sentiment_analysis": {
         "model_path": "models/sentiment_model.pkl",
         "threshold": 0.7
-    },
-    "text_classification": {
-        "model_path": "models/classifier_model.pkl",
-        "categories": ["categoria1", "categoria2", "categoria3"]
     }
 }
 ```
@@ -341,16 +261,10 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ## 👨‍💻 Autor
 
-**Andrés Mejía** - *Proyecto Final MLOps*
+**Miguel A. Martinez** - *Proyecto Final MLOps*
 - GitHub: [@iamam07](https://github.com/iamam07)
 - LinkedIn: [Tu perfil de LinkedIn]
 
-## 🙏 Agradecimientos
 
-- Universidad Politécnica de Madrid (UPM)
-- Master en Deep Learning
-- Profesores y compañeros del programa MLOps
-
----
 
 ⭐ **¡Si este proyecto te resulta útil, considera darle una estrella!** ⭐
