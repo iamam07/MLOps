@@ -251,7 +251,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 **Miguel A. Martinez** - *Proyecto Final MLOps*
 - GitHub: [@iamam07](https://github.com/iamam07)
-- LinkedIn: [Tu perfil de LinkedIn]
+- LinkedIn: [[Tu perfil de LinkedIn](https://www.linkedin.com/in/ingmamsoft/)]
 
 
 
